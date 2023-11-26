@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data Submission</title>
+</head>
+<body>
+  <h1>Data Submission Form</h1>
+  <form id="dataForm">
+    <label for="dataInput">Enter Data:</label>
+    <input type="text" id="dataInput" name="dataInput" required>
+    <button type="submit">Submit</button>
+  </form>
+
+  <script>
+    document.getElementById('dataForm').addEventListener('submit', async function (event) {
+      event.preventDefault();
+      const formData = new FormData(event.target);
+      const data = {};
+      formData.forEach((value, key) => {
+        data[key] = value;
+      });
+
+      const response = await fetch('http://192.168.2.97:3000/submitData', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.text();
+      console.log(result);
+    });
+  </script>
+</body>
+</html>
